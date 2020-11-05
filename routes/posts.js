@@ -12,6 +12,11 @@ router.get("/", function(req, res){
     });
 });
 
+// New
+router.get('/new', function(req, res){
+    res.render('posts/new');
+});
+
 // Create
 router.post("/", function(req, res){
     Post.create(req.body, function(err, post){
@@ -39,7 +44,7 @@ router.get("/:id/edit", function(req, res){
 // Update
 router.put("/:id", function(req, res){
     req.body.updatedAt = Date.now();
-    Post.findOneAndUpdate({_id:req.params.id}, function(err, post){
+    Post.findOneAndUpdate({_id:req.params.id}, req.body, function(err, post){
         if(err) return res.json();
         res.redirect("/posts/" + req.params.id);
     });
