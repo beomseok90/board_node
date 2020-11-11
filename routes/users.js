@@ -11,7 +11,7 @@ router.get('/', function(req, res){
       res.render('users/index', {users:users});
     });
 });
-
+ 
 // New
 router.get('/new', function(req, res){
   res.render('users/new');
