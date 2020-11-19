@@ -16,3 +16,5 @@ util.parseError = fucntion(errors){
 }
 
 module.exports = util;
+
+console.log("Test");
