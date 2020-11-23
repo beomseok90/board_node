@@ -6,6 +6,7 @@ var util = require("../util");
 // Index
 router.get("/", function(req, res){
     Post.find({})
+    .populate("author")
     .sort("-createdAt")
     .exec(function(err, posts){
         if(err) return res.json(err);
@@ -22,6 +23,7 @@ router.get('/new', function(req, res){
 
 // Create
 router.post("/", function(req, res){
+    req.body.author = req.user._id;
     Post.create(req.body, function(err, post){
         if(err){
             req.flash("post", req.body);
@@ -33,12 +35,14 @@ router.post("/", function(req, res){
 });
 
 // Show
-router.get("/:id", function(req, res){
-    Post.findOne({_id:req.params.id}, function(err, post){
-        if(err) return res.json();
-        res.render("posts/show", {post:post});
-    });
-});
+router.get('/:id', function(req, res){
+    Post.findOne({_id:req.params.id})
+      .populate('author')
+      .exec(function(err, post){
+        if(err) return res.json(err);
+        res.render('posts/show', {post:post});
+      });
+  });
 
 // Edit
 router.get("/:id/edit", function(req, res){
